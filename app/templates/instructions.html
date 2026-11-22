@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instrukcja Badania | Badanie SWPS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#00455E] text-white min-h-screen flex flex-col justify-between items-center p-4">
+
+    <header class="w-full max-w-3xl my-2 flex justify-between items-center text-xs text-slate-300 font-bold">
+        <span>Uniwersytet SWPS • Badanie Poznawcze</span>
+        <span>ID: {{ session_id }}</span>
+    </header>
+
+    <main class="w-full max-w-3xl bg-[#003447] border-2 border-[#002634] rounded-3xl p-6 md:p-10 shadow-2xl my-auto space-y-6">
+        <div class="space-y-2 border-b border-[#00455E] pb-4">
+            <span class="text-xs font-bold uppercase tracking-widest text-[#FFAE00]">Instrukcja przed rozpoczęciem</span>
+            <h1 class="text-2xl md:text-3xl font-black text-white">Przebieg badania</h1>
+        </div>
+
+        <p class="text-slate-200 leading-relaxed">
+            Twoim zadaniem będzie ocena serii portretów. Część z nich to <strong>autentyczne fotografie</strong> prawdziwych ludzi, a część została <strong>wygenerowana przez sztuczną inteligencję (AI)</strong>.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-4">
+            <div class="bg-[#002634] p-4 rounded-2xl border border-[#00455E] space-y-2">
+                <div class="text-[#FFAE00] font-black text-lg">Etap 1: Test wstępny</div>
+                <p class="text-sm text-slate-300">Ocenisz 20 portretów, kierując się swoją dotychczasową intuicją i spostrzegawczością.</p>
+            </div>
+            <div class="bg-[#002634] p-4 rounded-2xl border border-[#00455E] space-y-2">
+                <div class="text-[#FFAE00] font-black text-lg">Etap 2: Materiał</div>
+                <p class="text-sm text-slate-300">Zapoznasz się z krótkim, 5-częściowym materiałem wprowadzającym (ok. 1,5 min).</p>
+            </div>
+            <div class="bg-[#002634] p-4 rounded-2xl border border-[#00455E] space-y-2">
+                <div class="text-[#FFAE00] font-black text-lg">Etap 3: Test końcowy</div>
+                <p class="text-sm text-slate-300">Ocenisz drugą serię 20 nowych portretów na tych samych zasadach.</p>
+            </div>
+        </div>
+
+        <div class="bg-[#002634]/80 p-5 rounded-2xl border border-[#FFAE00]/40 space-y-2 text-sm text-slate-200">
+            <p class="font-bold text-[#FFAE00]">Zasady oceny każdego zdjęcia:</p>
+            <ul class="list-disc list-inside space-y-1.5">
+                <li>Na obejrzenie i ocenę każdego portretu masz <strong>10 sekund</strong> (czas pokazuje pasek nad zdjęciem).</li>
+                <li>Wskaż, czy portret jest <strong>Prawdziwy</strong>, czy <strong>Wygenerowany przez AI</strong>, a następnie określ swoją <strong>pewność decyzji</strong> w skali od 1 do 5.</li>
+                <li>Jeżeli nie zdążysz kliknąć wyboru w ciągu 10 sekund, zdjęcie zniknie, a system poprosi Cię o natychmiastowe wskazanie odpowiedzi.</li>
+            </ul>
+        </div>
+
+        <div class="pt-2 flex justify-center">
+            <a href="/pretest?session_id={{ session_id }}"
+               class="w-full max-w-md text-center py-4 bg-[#FFAE00] hover:bg-[#e69d00] text-[#00455E] font-black text-lg rounded-2xl shadow-xl transition transform active:scale-95">
+                ROZPOCZNIJ ETAP 1
+            </a>
+        </div>
+    </main>
+
+    <footer class="text-xs text-slate-300 my-2">
+        Wydział Projektowania SWPS • Badanie Licencjackie
+    </footer>
+</body>
+</html>

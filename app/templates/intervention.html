@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moduł Szkoleniowy | Badanie SWPS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#00455E] text-white min-h-screen flex flex-col justify-between items-center p-4">
+
+    <!-- Nagłówek i Pasek Postępu -->
+    <header class="w-full max-w-5xl my-2 space-y-2">
+        <div class="flex justify-between items-center text-xs text-slate-300 font-bold">
+            <span id="step-counter">Moduł edukacyjny: Wskazówka 1 z 5</span>
+            <span>ID: {{ session_id }}</span>
+        </div>
+        <div class="w-full bg-[#002634] rounded-full h-2.5 overflow-hidden border border-[#00455E]">
+            <div id="progress-bar" class="bg-[#FFAE00] h-full transition-all duration-300" style="width: 20%"></div>
+        </div>
+    </header>
+
+    <!-- Kontener Główny Karty Edukacyjnej -->
+    <main class="w-full max-w-5xl bg-[#003447] border-2 border-[#002634] rounded-3xl p-6 md:p-8 shadow-2xl my-auto">
+        
+        <!-- Widok dla grupy eksperymentalnej (CARICATURE / LUPY DIAGNOSTYCZNE) -->
+        <div id="visual-card-container" class="hidden space-y-5">
+            <div class="w-full rounded-2xl overflow-hidden border-2 border-[#002634] bg-[#002634] shadow-xl">
+                <img id="card-image" src="" alt="Przykład artefaktu AI" class="w-full h-auto object-contain max-h-[62vh] mx-auto">
+            </div>
+            <div class="bg-[#002634] p-4 rounded-2xl border border-[#00455E]">
+                <p id="card-summary" class="text-sm md:text-base text-slate-100 leading-relaxed"></p>
+            </div>
+        </div>
+
+        <!-- Widok dla grupy kontrolnej (TEXT) -->
+        <div id="text-card-container" class="hidden max-w-3xl mx-auto py-4 space-y-6">
+            <div class="space-y-2 border-b border-[#00455E] pb-4">
+                <span id="text-category" class="text-xs font-bold uppercase tracking-widest text-[#FFAE00]"></span>
+                <h1 id="text-title" class="text-2xl md:text-3xl font-black text-white"></h1>
+            </div>
+            <div id="text-paragraphs" class="space-y-4 text-base md:text-lg text-slate-100 leading-relaxed"></div>
+        </div>
+
+        <!-- Ekran pytania sprawdzającego uwagę (Manipulation Check) po 5 kartach -->
+        <div id="attention-check-container" class="hidden max-w-2xl mx-auto py-4 space-y-6">
+            <div class="space-y-2 text-center">
+                <span class="text-xs font-bold uppercase tracking-widest text-[#FFAE00]">Krótkie podsumowanie przed II częścią testu</span>
+                <h2 id="quiz-question" class="text-2xl font-black text-white"></h2>
+            </div>
+
+            <div class="space-y-3" id="quiz-options"></div>
+            <p id="quiz-feedback" class="text-center text-sm font-bold hidden"></p>
+        </div>
+
+        <!-- Przycisk Nawigacji z blokadą minimalnego czasu ekspozycji -->
+        <div class="mt-6 flex flex-col items-center">
+            <button id="next-btn" onclick="nextCard()" disabled
+                class="w-full max-w-md py-4 bg-slate-600 text-slate-300 font-black text-lg rounded-2xl shadow-xl transition cursor-not-allowed">
+                Zapoznaj się z materiałem (12s)...
+            </button>
+        </div>
+    </main>
+
+    <footer class="text-xs text-slate-300 my-2">
+        Wydział Projektowania SWPS • Moduł Edukacyjny
+    </footer>
+
+    <script id="cards-data" type="application/json">
+        {{ cards_json | safe }}
+    </script>
+
+    <script>
+        const cards = JSON.parse(document.getElementById("cards-data").textContent);
+        const sessionId = "{{ session_id }}";
+        const groupType = "{{ group_type }}";
+
+        const MIN_SECONDS_PER_CARD = 12; // Minimalny czas ekspozycji jednej karty (12s * 5 = 60s min.)
+        let currentCardIndex = 0;
+        let countdownInterval = null;
+        let quizAnsweredCorrectly = false;
+        const interventionStartTime = performance.now();
+
+        const stepCounter = document.getElementById("step-counter");
+        const progressBar = document.getElementById("progress-bar");
+        const nextBtn = document.getElementById("next-btn");
+
+        const visualContainer = document.getElementById("visual-card-container");
+        const textContainer = document.getElementById("text-card-container");
+        const quizContainer = document.getElementById("attention-check-container");
+
+        function startCardTimer(seconds) {
+            clearInterval(countdownInterval);
+            let remaining = seconds;
+
+            nextBtn.disabled = true;
+            nextBtn.className = "w-full max-w-md py-4 bg-slate-600 text-slate-300 font-black text-lg rounded-2xl shadow-xl transition cursor-not-allowed";
+            nextBtn.innerText = `Zapoznaj się z materiałem (${remaining}s)...`;
+
+            countdownInterval = setInterval(() => {
+                remaining--;
+                if (remaining > 0) {
+                    nextBtn.innerText = `Zapoznaj się z materiałem (${remaining}s)...`;
+                } else {
+                    clearInterval(countdownInterval);
+                    nextBtn.disabled = false;
+                    nextBtn.className = "w-full max-w-md py-4 bg-[#FFAE00] hover:bg-[#e69d00] text-[#00455E] font-black text-lg rounded-2xl shadow-xl transition transform active:scale-95 cursor-pointer";
+                    nextBtn.innerText = currentCardIndex < cards.length - 1 ? "NASTĘPNA CZĘŚĆ ➔" : "PRZEJDŹ DO PYTANIA KONTROLNEGO ➔";
+                }
+            }, 1000);
+        }
+
+        function renderCard() {
+            if (currentCardIndex >= cards.length) {
+                showAttentionCheck();
+                return;
+            }
+
+            const card = cards[currentCardIndex];
+            stepCounter.innerText = `Moduł edukacyjny: Część ${currentCardIndex + 1} z ${cards.length}`;
+            progressBar.style.width = `${((currentCardIndex + 1) / (cards.length + 1)) * 100}%`;
+
+            if (groupType === "caricature") {
+                visualContainer.classList.remove("hidden");
+                textContainer.classList.add("hidden");
+                document.getElementById("card-image").src = card.image_url;
+                document.getElementById("card-summary").innerText = card.summary;
+            } else {
+                textContainer.classList.remove("hidden");
+                visualContainer.classList.add("hidden");
+                document.getElementById("text-category").innerText = card.category;
+                document.getElementById("text-title").innerText = card.title;
+
+                const pContainer = document.getElementById("text-paragraphs");
+                pContainer.innerHTML = "";
+                card.paragraphs.forEach(text => {
+                    const p = document.createElement("p");
+                    p.innerText = text;
+                    pContainer.appendChild(p);
+                });
+            }
+
+            startCardTimer(MIN_SECONDS_PER_CARD);
+        }
+
+        function showAttentionCheck() {
+            clearInterval(countdownInterval);
+            visualContainer.classList.add("hidden");
+            textContainer.classList.add("hidden");
+            quizContainer.classList.remove("hidden");
+
+            stepCounter.innerText = "Weryfikacja uwagi przed II fazą testu";
+            progressBar.style.width = "100%";
+
+            const qTitle = document.getElementById("quiz-question");
+            const qOptions = document.getElementById("quiz-options");
+            qOptions.innerHTML = "";
+
+            const quizData = groupType === "caricature"
+                ? {
+                    question: "Który z poniższych obszarów najczęściej zdradza ingerencję AI w portret?",
+                    options: [
+                        { text: "A. Wyłącznie kolor oczu oraz kształt czubka nosa", correct: false },
+                        { text: "B. Asymetria kolczyków i uszu, ciągłość oprawek okularów, linia włosów oraz ramion", correct: true },
+                        { text: "C. Rozdzielczość pliku oraz jasność tła fotografii", correct: false }
+                    ]
+                }
+                : {
+                    question: "Co według przeczytanego artykułu doprowadziło do wielkiego wymierania dinozaurów 66 mln lat temu?",
+                    options: [
+                        { text: "A. Uderzenie planetoidy w rejon dzisiejszego półwyspu Jukatan i załamanie fotosyntezy", correct: true },
+                        { text: "B. Gwałtowne podniesienie poziomu tlenu i pojawienie się pierwszych płazów", correct: false },
+                        { text: "C. Połączenie wszystkich kontynentów w jeden superkontynent Pangeę", correct: false }
+                    ]
+                };
+
+            qTitle.innerText = quizData.question;
+            quizData.options.forEach(opt => {
+                const btn = document.createElement("button");
+                btn.className = "w-full text-left p-4 rounded-2xl bg-[#002634] hover:bg-[#002634]/80 border border-[#00455E] transition text-sm md:text-base";
+                btn.innerText = opt.text;
+                btn.onclick = () => selectQuizOption(btn, opt.correct);
+                qOptions.appendChild(btn);
+            });
+
+            nextBtn.disabled = true;
+            nextBtn.className = "w-full max-w-md py-4 bg-slate-600 text-slate-300 font-black text-lg rounded-2xl shadow-xl transition cursor-not-allowed";
+            nextBtn.innerText = "Wybierz poprawną odpowiedź powyżej";
+        }
+
+        function selectQuizOption(btnElement, isCorrect) {
+            const feedback = document.getElementById("quiz-feedback");
+            feedback.classList.remove("hidden");
+
+            if (isCorrect) {
+                btnElement.className = "w-full text-left p-4 rounded-2xl bg-emerald-700/60 border-2 border-emerald-400 transition text-sm md:text-base font-bold";
+                feedback.className = "text-center text-sm font-bold text-emerald-400";
+                feedback.innerText = "Zgadza się! Możesz teraz przejść do drugiej części testu.";
+                quizAnsweredCorrectly = true;
+
+                nextBtn.disabled = false;
+                nextBtn.className = "w-full max-w-md py-4 bg-[#FFAE00] hover:bg-[#e69d00] text-[#00455E] font-black text-lg rounded-2xl shadow-xl transition transform active:scale-95 cursor-pointer";
+                nextBtn.innerText = "ROZPOCZNIJ TEST KOŃCOWY 🚀";
+            } else {
+                btnElement.className = "w-full text-left p-4 rounded-2xl bg-rose-900/50 border-2 border-rose-500 transition text-sm md:text-base";
+                feedback.className = "text-center text-sm font-bold text-rose-400";
+                feedback.innerText = "Nie do końca — spróbuj zaznaczyć inną odpowiedź na podstawie przeczytanego materiału.";
+            }
+        }
+
+        function nextCard() {
+            if (currentCardIndex < cards.length) {
+                currentCardIndex++;
+                renderCard();
+            } else if (quizAnsweredCorrectly) {
+                const durationSeconds = parseFloat(((performance.now() - interventionStartTime) / 1000).toFixed(2));
+
+                fetch("/api/complete-intervention", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        session_id: sessionId,
+                        duration_seconds: durationSeconds
+                    })
+                })
+                .finally(() => {
+                    window.location.href = `/posttest?session_id=${sessionId}`;
+                });
+            }
+        }
+
+        renderCard();
+    </script>
+</body>
+</html>

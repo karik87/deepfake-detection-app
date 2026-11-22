@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etap 1: Test Wstępny | Badanie SWPS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#00455E] text-white min-h-screen flex flex-col justify-between items-center p-4 select-none">
+
+    <!-- Nagłówek i pasek postępu badania -->
+    <header class="w-full max-w-4xl my-1 space-y-2">
+        <div class="flex justify-between items-center text-xs text-slate-300 font-bold">
+            <span id="trial-counter">Etap 1 (Test wstępny): Zdjęcie 1 z 20</span>
+            <span>ID: {{ session_id }}</span>
+        </div>
+        <div class="w-full bg-[#002634] rounded-full h-2 overflow-hidden border border-[#00455E]">
+            <div id="progress-bar" class="bg-[#FFAE00] h-full transition-all duration-300" style="width: 5%"></div>
+        </div>
+    </header>
+
+    <!-- Główny obszar bodźca i odpowiedzi -->
+    <main class="w-full max-w-4xl bg-[#003447] border-2 border-[#002634] rounded-3xl p-5 md:p-7 shadow-2xl my-auto flex flex-col items-center space-y-4">
+
+        <!-- Pasek odliczania czasu na ekspozycję zdjęcia (10 sekund) -->
+        <div class="w-full max-w-[500px] space-y-1">
+            <div class="flex justify-between text-xs font-bold text-slate-300">
+                <span>Pozostały czas ekspozycji</span>
+                <span id="timer-label" class="text-[#FFAE00]">10.0 s</span>
+            </div>
+            <div class="w-full bg-[#002634] rounded-full h-2.5 overflow-hidden border border-[#00455E]">
+                <div id="timer-bar" class="bg-emerald-400 h-full transition-none" style="width: 100%"></div>
+            </div>
+        </div>
+
+        <!-- Ramka na portret -->
+        <div class="relative w-[320px] h-[320px] sm:w-[440px] sm:h-[440px] md:w-[500px] md:h-[500px] bg-[#002634] rounded-2xl border-2 border-[#00455E] overflow-hidden flex items-center justify-center shadow-xl">
+            <img id="stimulus-image" src="" alt="Portret do oceny" class="w-full h-full object-cover">
+            <div id="timeout-overlay" class="hidden absolute inset-0 bg-[#002634]/95 flex flex-col items-center justify-center p-6 text-center space-y-2">
+                <p class="text-lg font-black text-[#FFAE00]">Czas ekspozycji upłynął</p>
+                <p class="text-sm text-slate-300">Wybierz odpowiedź poniżej, aby przejść dalej.</p>
+            </div>
+        </div>
+
+        <!-- Panel decyzji (Krok 1: Wybór Prawdziwe vs Wygenerowane AI) -->
+        <div id="decision-panel" class="w-full max-w-xl space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+                <button id="btn-real" onclick="selectChoice('real')"
+                    class="py-3.5 px-4 rounded-2xl bg-[#002634] hover:bg-emerald-800/60 border-2 border-[#00455E] font-black text-sm md:text-base tracking-wide transition cursor-pointer">
+                    PRAWDZIWE
+                </button>
+                <button id="btn-ai" onclick="selectChoice('ai')"
+                    class="py-3.5 px-4 rounded-2xl bg-[#002634] hover:bg-rose-800/60 border-2 border-[#00455E] font-black text-sm md:text-base tracking-wide transition cursor-pointer">
+                    WYGENEROWANE AI
+                </button>
+            </div>
+
+            <!-- Krok 2: Skala pewności 1-5 -->
+            <div id="confidence-panel" class="hidden bg-[#002634] p-4 rounded-2xl border border-[#FFAE00]/50 space-y-3">
+                <p class="text-center text-xs md:text-sm font-bold text-slate-200">
+                    Określ pewność swojej decyzji (1 = zgaduję, 5 = całkowita pewność)
+                </p>
+                <div class="grid grid-cols-5 gap-2">
+                    <button onclick="submitTrial(1)" class="py-2.5 rounded-xl bg-[#003447] hover:bg-[#FFAE00] hover:text-[#00455E] font-black transition border border-[#00455E] cursor-pointer">1</button>
+                    <button onclick="submitTrial(2)" class="py-2.5 rounded-xl bg-[#003447] hover:bg-[#FFAE00] hover:text-[#00455E] font-black transition border border-[#00455E] cursor-pointer">2</button>
+                    <button onclick="submitTrial(3)" class="py-2.5 rounded-xl bg-[#003447] hover:bg-[#FFAE00] hover:text-[#00455E] font-black transition border border-[#00455E] cursor-pointer">3</button>
+                    <button onclick="submitTrial(4)" class="py-2.5 rounded-xl bg-[#003447] hover:bg-[#FFAE00] hover:text-[#00455E] font-black transition border border-[#00455E] cursor-pointer">4</button>
+                    <button onclick="submitTrial(5)" class="py-2.5 rounded-xl bg-[#003447] hover:bg-[#FFAE00] hover:text-[#00455E] font-black transition border border-[#00455E] cursor-pointer">5</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-xs text-slate-300 my-1">
+        Wydział Projektowania SWPS • Etap 1 z 3
+    </footer>
+
+    <script id="stimuli-data" type="application/json">
+        {{ images_json | safe }}
+    </script>
+
+    <script>
+        const stimuli = JSON.parse(document.getElementById("stimuli-data").textContent);
+        const sessionId = "{{ session_id }}";
+        const PHASE = "pretest";
+        const EXPOSURE_LIMIT_MS = 10000; // 10 sekund na ekspozycję zdjęcia
+
+        let currentIndex = 0;
+        let trialStartTime = 0;
+        let decisionTimeSeconds = 0;
+        let selectedChoice = null;
+        let isSubmitting = false;
+        let timerInterval = null;
+
+        const trialCounter = document.getElementById("trial-counter");
+        const progressBar = document.getElementById("progress-bar");
+        const timerLabel = document.getElementById("timer-label");
+        const timerBar = document.getElementById("timer-bar");
+        const stimulusImage = document.getElementById("stimulus-image");
+        const timeoutOverlay = document.getElementById("timeout-overlay");
+        const decisionPanel = document.getElementById("decision-panel");
+        const confidencePanel = document.getElementById("confidence-panel");
+        const btnReal = document.getElementById("btn-real");
+        const btnAi = document.getElementById("btn-ai");
+
+        function getTrialMeta(item) {
+            const url = item.url || item.image_url;
+            const id = item.id || item.image_id || item.filename || url.split("/").pop();
+            const gt = (item.label || item.type || (url.includes("/ai/") ? "ai" : "real")).toLowerCase();
+            return { url, id, gt };
+        }
+
+        function stopExposureTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function startExposureTimer() {
+            stopExposureTimer();
+            timerBar.style.width = "100%";
+            timerBar.className = "bg-emerald-400 h-full transition-none";
+            timerLabel.innerText = `${(EXPOSURE_LIMIT_MS / 1000).toFixed(1)} s`;
+
+            timerInterval = setInterval(() => {
+                const elapsed = performance.now() - trialStartTime;
+                const remaining = Math.max(0, EXPOSURE_LIMIT_MS - elapsed);
+                const pct = (remaining / EXPOSURE_LIMIT_MS) * 100;
+
+                timerBar.style.width = `${pct}%`;
+                timerLabel.innerText = `${(remaining / 1000).toFixed(1)} s`;
+
+                if (pct <= 30) {
+                    timerBar.className = "bg-rose-500 h-full transition-none";
+                } else if (pct <= 60) {
+                    timerBar.className = "bg-[#FFAE00] h-full transition-none";
+                }
+
+                if (remaining <= 0) {
+                    stopExposureTimer();
+                    stimulusImage.classList.add("hidden");
+                    timeoutOverlay.classList.remove("hidden");
+                }
+            }, 50);
+        }
+
+        function startTrial() {
+            stopExposureTimer();
+
+            if (currentIndex >= stimuli.length) {
+                window.location.href = `/intervention?session_id=${sessionId}`;
+                return;
+            }
+
+            isSubmitting = false;
+            selectedChoice = null;
+            decisionTimeSeconds = 0;
+
+            trialCounter.innerText = `Etap 1 (Test wstępny): Zdjęcie ${currentIndex + 1} z ${stimuli.length}`;
+            progressBar.style.width = `${((currentIndex + 1) / stimuli.length) * 100}%`;
+
+            btnReal.className = "py-3.5 px-4 rounded-2xl bg-[#002634] hover:bg-emerald-800/60 border-2 border-[#00455E] font-black text-sm md:text-base tracking-wide transition cursor-pointer";
+            btnAi.className = "py-3.5 px-4 rounded-2xl bg-[#002634] hover:bg-rose-800/60 border-2 border-[#00455E] font-black text-sm md:text-base tracking-wide transition cursor-pointer";
+            confidencePanel.classList.add("hidden");
+            decisionPanel.classList.remove("opacity-40", "pointer-events-none");
+            timeoutOverlay.classList.add("hidden");
+            stimulusImage.classList.remove("hidden");
+
+            const meta = getTrialMeta(stimuli[currentIndex]);
+            stimulusImage.src = meta.url;
+
+            trialStartTime = performance.now();
+            startExposureTimer();
+        }
+
+        function selectChoice(choice) {
+            if (isSubmitting) return;
+            stopExposureTimer();
+
+            if (!selectedChoice) {
+                decisionTimeSeconds = parseFloat(((performance.now() - trialStartTime) / 1000).toFixed(3));
+            }
+            selectedChoice = choice;
+
+            if (choice === "real") {
+                btnReal.className = "py-3.5 px-4 rounded-2xl bg-emerald-700 border-2 border-emerald-400 font-black text-sm md:text-base tracking-wide transition cursor-pointer";
+                btnAi.className = "py-3.5 px-4 rounded-2xl bg-[#002634] opacity-60 border-2 border-[#00455E] font-black text-sm md:text-base tracking-wide transition cursor-pointer";
+            } else {
+                btnAi.className = "py-3.5 px-4 rounded-2xl bg-rose-700 border-2 border-rose-400 font-black text-sm md:text-base tracking-wide transition cursor-pointer";
+                btnReal.className = "py-3.5 px-4 rounded-2xl bg-[#002634] opacity-60 border-2 border-[#00455E] font-black text-sm md:text-base tracking-wide transition cursor-pointer";
+            }
+
+            confidencePanel.classList.remove("hidden");
+        }
+
+        function submitTrial(confidenceScore) {
+            if (!selectedChoice || isSubmitting) return;
+            isSubmitting = true;
+            decisionPanel.classList.add("opacity-40", "pointer-events-none");
+
+            const meta = getTrialMeta(stimuli[currentIndex]);
+
+            fetch("/api/submit-answer", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    session_id: sessionId,
+                    phase: PHASE,
+                    image_id: meta.id,
+                    ground_truth: meta.gt,
+                    user_choice: selectedChoice,
+                    confidence_score: confidenceScore,
+                    response_time_seconds: decisionTimeSeconds
+                })
+            })
+            .finally(() => {
+                currentIndex++;
+                startTrial();
+            });
+        }
+
+        startTrial();
+    </script>
+</body>
+</html>

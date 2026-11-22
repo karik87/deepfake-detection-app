@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Świadoma Zgoda | Badanie SWPS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#00455E] text-white min-h-screen py-10 px-4">
+    <div class="max-w-3xl mx-auto bg-[#003447] border-2 border-[#002634] rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+        
+        <!-- Nagłówek Akademicki -->
+        <div class="text-center space-y-1">
+            <h3 class="text-xs font-bold tracking-widest uppercase text-slate-300">UNIWERSYTET SWPS W WARSZAWIE</h3>
+            <p class="text-xs text-slate-400">Wydział Projektowania</p>
+            <h1 class="text-xl md:text-2xl font-black text-[#FFAE00] pt-2">
+                FORMULARZ INFORMACJI O BADANIU I ŚWIADOMEJ ZGODY NA UDZIAŁ W PROJEKCIE NAUKOWYM
+            </h1>
+        </div>
+
+        <!-- Metadane Projektu -->
+        <div class="bg-[#002634] p-4 rounded-2xl border border-[#00455E] text-xs text-slate-200 space-y-1">
+            <p><strong>Tytuł projektu badawczego:</strong> Ocena skuteczności mikrointerwencji edukacyjnej opartej na wizualnym karykaturowaniu w detekcji mediów syntetycznych (deepfake)</p>
+            <p><strong>Kierownik badania / Autor:</strong> Karol Janikowski</p>
+            <p><strong>Opiekun naukowy:</strong> dr Maksymilian Bielecki</p>
+            <p><strong>Kontakt z badaczem:</strong> karoljanikowski1@st.swps.edu.pl</p>
+        </div>
+
+        <!-- Sekcja I: Informacja dla Uczestnika -->
+        <div class="space-y-4 text-xs md:text-sm text-slate-200 bg-[#002634]/50 p-4 md:p-6 rounded-2xl border border-[#00455E] max-h-72 overflow-y-auto leading-relaxed">
+            <h2 class="font-bold text-[#FFAE00] text-base">I. INFORMACJA DLA UCZESTNIKA / UCZESTNICZKI BADANIA</h2>
+            <p>Prosimy o uważne zapoznanie się z poniższymi informacjami przed podjęciem decyzji o wyrażeniu zgody na udział w badaniu.</p>
+            
+            <p><strong>1. Cel i charakter badania:</strong> Niniejsze badanie ma charakter naukowy i jest realizowane w ramach pracy licencjackiej na Wydziale Projektowania Uniwersytetu SWPS w Warszawie. Celem projektu jest ocena sposobu, w jaki ludzie przetwarzają informacje wizualne zawarte w cyfrowych portretach, oraz analiza skuteczności krótkich modułów szkoleniowych wspomagających odróżnianie zdjęć prawdziwych od obrazów wygenerowanych przez sztuczną inteligencję (AI).</p>
+            
+            <p><strong>2. Przebieg badania i czas trwania:</strong> Badanie odbywa się w formie interaktywnej aplikacji internetowej. Całkowity czas udziału wynosi około 20 minut. Procedura składa się z następujących etapów:</p>
+            <ol class="list-decimal list-inside pl-2 space-y-1">
+                <li>Wypełnienie krótkiego kwestionariusza wstępnego.</li>
+                <li>Krótka kalibracja modułu analizy skupienia wzroku.</li>
+                <li>Faza testowa I (ocena wybranych portretów oraz określenie poziomu pewności decyzji).</li>
+                <li>Krótki moduł edukacyjny.</li>
+                <li>Faza testowa II (ponowna ocena portretów i poziomu pewności).</li>
+                <li>Zapoznanie się z podsumowaniem i informacją pobadaniową (debriefing).</li>
+            </ol>
+
+            <p><strong>3. Rejestracja punktu skupienia wzroku (Eye-tracking) i ochrona prywatności:</strong> W celu przeanalizowania obszarów zdjęcia, na które zwracasz uwagę, aplikacja wykorzystuje algorytm analizy ruchów gałek ocznych działający w przeglądarce (WebGazer.js).</p>
+            <ul class="list-disc list-inside pl-2 space-y-1 text-slate-300">
+                <li><strong>Brak nagrywania wideo:</strong> Obraz z Twojej kamerki internetowej NIE JEST nagrywany, transmitowany, zrzucany na dysk ani zapisywany na żadnym serwerze.</li>
+                <li><strong>Przetwarzanie lokalne:</strong> Analiza obrazu z kamerki odbywa się wyłącznie lokalnie w pamięci podręcznej Twojego urządzenia (po stronie przeglądarki).</li>
+                <li><strong>Anonimowe dane numeryczne:</strong> Na serwer badania przesyłane są wyłącznie anonimowe współrzędne liczbowe (X, Y) określające punkt skupienia wzroku na ekranie komputera.</li>
+            </ul>
+
+            <p><strong>4. Dobrowolność udziału i prawo do wycofania zgody:</strong> Udział w badaniu jest w pełni dobrowolny. Masz prawo do wycofania się z badania na dowolnym etapie jego trwania, bez podawania przyczyny i bez ponoszenia jakichkolwiek negatywnych konsekwencji. Aby przerwać badanie, wystarczy zamknąć kartę lub okno przeglądarki. Dane zebrane do momentu przerwania badania nie zostaną uwzględnione w analizach.</p>
+
+            <p><strong>5. Anonimowość i ochrona danych (RODO):</strong> Badanie jest całkowicie anonimowe. System nie zbiera ani nie przechowuje Twoich danych osobowych (takich jak imię, nazwisko, adres e-mail czy adres IP). Twój zestaw odpowiedzi zostanie zapisany pod losowo wygenerowanym ciągiem cyfr (np. ID_8392). Zebrane wyniki będą analizowane wyłącznie zbiorczo w celach naukowych i mogą zostać wykorzystane w pracy licencjackiej oraz ewentualnych akademickich publikacjach naukowych.</p>
+
+            <p><strong>6. Brak ryzyka i korzyści:</strong> Procedura jest całkowicie bezinwazyjna. Udział w badaniu nie wiąże się z żadnym ryzykiem dla zdrowia fizycznego ani psychicznego. Udział ma charakter bezpłatny.</p>
+        </div>
+
+        <!-- Sekcja II: Formularz Świadomej Zgody -->
+        <form action="/questionnaire" method="GET" class="space-y-4">
+            <h2 class="font-bold text-[#FFAE00] text-sm md:text-base">II. FORMULARZ ŚWIADOMEJ ZGODY</h2>
+            <div class="space-y-3 bg-[#002634] p-4 rounded-2xl border border-[#00455E] text-xs md:text-sm">
+                <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" required class="mt-1 w-4 h-4 accent-[#FFAE00]">
+                    <span>Oświadczam, że mam ukończone 18 lat.</span>
+                </label>
+                <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" required class="mt-1 w-4 h-4 accent-[#FFAE00]">
+                    <span>Oświadczam, że zapoznałem/am się z powyższą informacją o badaniu. Rozumiem cel, przebieg badania oraz zasady przetwarzania danych punktu wzroku.</span>
+                </label>
+                <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" required class="mt-1 w-4 h-4 accent-[#FFAE00]">
+                    <span>Wyrażam dobrowolną zgodę na udział w badaniu oraz na przetwarzanie moich anonimowych wyników do celów naukowych.</span>
+                </label>
+            </div>
+
+            <button type="submit" class="w-full py-4 bg-[#FFAE00] hover:bg-[#e69d00] text-[#00455E] font-black text-lg rounded-2xl shadow-xl transition transform active:scale-95">
+                PRZEJDŹ DO KWESTIONARIUSZA ➔
+            </button>
+        </form>
+    </div>
+</body>
+</html>

@@ -218,3 +218,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- Specyficzne dla projektu badania SWPS ---
+.DS_Store
+data/
+backups/
+*.db
+*.db-wal
+*.db-shm
+*.csv
