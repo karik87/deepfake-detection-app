@@ -1,89 +1,195 @@
-# Materiały edukacyjne dla fazy mikrointerwencji:
-# 1. INTERVENTION_CARICATURE -> Grupa eksperymentalna (wizualne wyolbrzymienie / lupy diagnostyczne)
-# 2. INTERVENTION_TEXT       -> Aktywna grupa kontrolna (neutralny tekst popularnonaukowy o dinozaurach)
-
 INTERVENTION_CARICATURE = [
     {
-        "step": 1,
-        "category": "Symetria detali",
-        "title": "1. Asymetria kolczyków i płatków uszu",
-        "image_url": "/static/images/intervention/card_01_earrings.png",
-        "summary": "Zwróć uwagę na powiększenia: po lewej stronie generator utworzył wyraźny, okrągły kolczyk, natomiast po prawej biżuteria rozpływa się w bezkształtną plamę."
+        "title": "Analiza 1: Anatomia ucha i struktura uzębienia",
+        "instruction": "Najedź i kliknij 2 podświetlone strefy na portrecie, aby zbadać typowe błędy generatywne.",
+        "image_url": "/static/images/intervention/998.jpg",
+        "hotspots": [
+            {
+                "x": 16,
+                "y": 54,
+                "label": "Zniekształcona małżowina uszna",
+                "description": "Algorytmy generatywne rzadziej trenują detale boczne głowy. Zwróć uwagę, że wewnętrzne fałdy chrząstki są rozmyte i nienaturalnie zlane, a górna krawędź ucha stapia się z linią włosów."
+            },
+            {
+                "x": 47,
+                "y": 69,
+                "label": "Asymetria i kształt zębów",
+                "description": "Siekacze są lekko przesunięte względem osi nosa, a boczne zęby po lewej stronie mają nienaturalne, trójkątne wcięcia oraz rozmyte przejście w dziąsło."
+            }
+        ]
     },
     {
-        "step": 2,
-        "category": "Ciągłość geometryczna",
-        "title": "2. Zniekształcone oprawki okularów i obiekty w tle",
-        "image_url": "/static/images/intervention/card_02_glasses.png",
-        "summary": "Porównaj oba wycinki: zausznik okularów po prawej stronie urywa się przed uchem, a w tle pojawia się nieostra, cielista halucynacja przypominająca ramię."
+        "title": "Analiza 2: Spójność tła i detale garderoby",
+        "instruction": "Kliknij obie zaznaczone strefy, aby sprawdzić krawędzie sylwetki i otoczenia.",
+        "image_url": "/static/images/intervention/994.jpg",
+        "hotspots": [
+            {
+                "x": 87,
+                "y": 40,
+                "label": "Niespójne tło i rozmyte kosmyki",
+                "description": "W tle po prawej stronie widoczne są nieokreślone, geometrycznie roztopione kształty nieprzypominające realnych przedmiotów, a pojedyncze pasma włosów zanikają w mgiełce."
+            },
+            {
+                "x": 17,
+                "y": 81,
+                "label": "Artefakty kolorystyczne na ubraniu",
+                "description": "Na fioletowym materiale przy ramieniu pojawiają się nienaturalne, jaskrawopomarańczowe przebarwienia oraz zniekształcony fragment białego ramiączka."
+            }
+        ]
     },
     {
-        "step": 3,
-        "category": "Halucynacje odzieży",
-        "title": "3. Nienaturalne obiekty widma na ramionach",
-        "image_url": "/static/images/intervention/card_03_shoulders.png",
-        "summary": "Przyjrzyj się liniom ramion: zza swetra wyrastają dwie symetryczne, szare struktury o prążkowanej fakturze, niepasujące do ubrania ani ceglanego tła."
+        "title": "Analiza 3: Biżuteria i tzw. artefakty widmowe",
+        "instruction": "Zbadaj 2 zaznaczone obszary w dolnej części twarzy i szyi.",
+        "image_url": "/static/images/intervention/993.jpg",
+        "hotspots": [
+            {
+                "x": 21,
+                "y": 58,
+                "label": "Sztucznie wtopiony kolczyk",
+                "description": "Na płatku ucha znajduje się płaski, ciemny punkt przypominający kolczyk z nienaturalnym cieniowaniem, a tuż pod nim zwisają poszarpane, urwane pasma włosów."
+            },
+            {
+                "x": 25,
+                "y": 84,
+                "label": "„Widmowy” łańcuszek na szyi",
+                "description": "Zza linii żuchwy wyłania się fragment brązowego sznurka lub koralików, który urywa się przy kołnierzyku i nie ma żadnej kontynuacji po drugiej stronie szyi."
+            }
+        ]
     },
     {
-        "step": 4,
-        "category": "Mikrostruktura twarzy",
-        "title": "4. Klawiszowy układ zębów i szczątkowy kolczyk",
-        "image_url": "/static/images/intervention/card_04_teeth.png",
-        "summary": "W powiększeniu widać niemal identyczne, prostokątne zęby z rozmyciem dziąseł oraz pojedynczy, niekompletny punkt kolczyka wyłaniający się zza włosów."
+        "title": "Analiza 4: Symetria oprawek okularów i uszu",
+        "instruction": "Okulary to jedno z najtrudniejszych wyzwań dla AI. Kliknij obie zaznaczone strefy.",
+        "image_url": "/static/images/intervention/988.jpg",
+        "hotspots": [
+            {
+                "x": 15,
+                "y": 43,
+                "label": "Asymetria zawiasu i grubości ramki",
+                "description": "Lewy zawias okularów tworzy gruby, rozmyty i półprzezroczysty blok o innym kształcie oraz odcieniu niż cienka, ciemna oprawka po prawej stronie."
+            },
+            {
+                "x": 71,
+                "y": 53,
+                "label": "Różna budowa uszu i zanikający zausznik",
+                "description": "Prawe ucho znajduje się na innej wysokości i ma zupełnie inny kształt płatka niż lewe, a prawy zausznik okularów rozmywa się przed dotarciem do ucha."
+            }
+        ]
     },
     {
-        "step": 5,
-        "category": "Granica obiekt–tło",
-        "title": "5. Włosy rozpływające się w rozmytym tle",
-        "image_url": "/static/images/intervention/card_05_hair.png",
-        "summary": "Spójrz na krawędzie fryzury: zamiast ostrej granicy głębi ostrości pojedyncze kosmyki zamieniają się w malarskie smugi zawieszone w powietrzu."
+        "title": "Analiza 5: Parzystość ozdób i geometria szkieł",
+        "instruction": "Kliknij 2 ostatnie strefy kontrolne, aby zakończyć trening detekcji.",
+        "image_url": "/static/images/intervention/983.jpg",
+        "hotspots": [
+            {
+                "x": 26,
+                "y": 74,
+                "label": "Niedopasowane kolczyki",
+                "description": "Z lewej strony widoczny jest duży, okrągły kolczyk ze złotą zawieszką, podczas gdy po prawej stronie pojawia się jedynie cienki, rozmyty haczyk."
+            },
+            {
+                "x": 83,
+                "y": 43,
+                "label": "Wygięty zausznik i nierówne ramki",
+                "description": "Prawy zausznik okularów wygina się pod nienaturalnym kątem i wtapia we włosy, a prawa ramka ma wyraźnie mniejszą wysokość niż lewa."
+            }
+        ]
     }
 ]
 
 INTERVENTION_TEXT = [
     {
-        "step": 1,
-        "category": "Artykuł popularnonaukowy • Część 1 z 5",
-        "title": "1. Narodziny dinozaurów w erze mezozoicznej",
-        "paragraphs": [
-            "Dinozaury pojawiły się na Ziemi w okresie triasu, około 230 milionów lat temu, gdy wszystkie kontynenty były połączone w jeden superkontynent zwany Pangeą. Wczesne formy tych gadów były stosunkowo niewielkimi, dwunożnymi drapieżnikami, które stopniowo zajmowały nisze ekologiczne opuszczone po wielkim wymieraniu permskim.",
-            "Kluczową cechą anatomiczną odróżniającą dinozaury od innych gadów była budowa miednicy oraz pionowe ustawienie kończyn pod tułowiem. Taka konstrukcja szkieletu pozwalała na znacznie wydajniejsze poruszanie się i oddychanie w biegu, co zapewniło im ewolucyjną przewagę przez kolejne 165 milionów lat."
+        "title": "Moduł 1: Wymieranie kredowe i król drapieżników",
+        "instruction": "Najedź i kliknij 2 podświetlone strefy na ilustracji, aby odkryć fakty paleontologiczne.",
+        "image_url": "/static/images/intervention/dino_1.jpg",
+        "hotspots": [
+            {
+                "x": 55,
+                "y": 34,
+                "label": "Asteroida Chicxulub (66 mln lat temu)",
+                "description": "Planetoida o średnicy około 10–15 km uderzyła w rejon dzisiejszego półwyspu Jukatan w Meksyku. Wybuch uwolnił energię miliardów bomb atomowych, wywołując globalne pożary i wieloletnią „zimę uderzeniową”, która zakończyła erę nieptasich dinozaurów."
+            },
+            {
+                "x": 83,
+                "y": 45,
+                "label": "Tyranozaur (Tyrannosaurus rex)",
+                "description": "Jeden z największych drapieżników lądowych w dziejach Ziemi – osiągał do 13 metrów długości i ważył nawet 9 ton. Dysponował najsilniejszym naciskiem szczęk spośród znanych zwierząt lądowych, zdolnym bez trudu kruszyć kości ofiar."
+            }
         ]
     },
     {
-        "step": 2,
-        "category": "Artykuł popularnonaukowy • Część 2 z 5",
-        "title": "2. Zróżnicowanie wielkości i strategii żywieniowych",
-        "paragraphs": [
-            "W okresie jury i kredy dinozaury osiągnęły niezwykłą różnorodność form. Do największych zwierząt lądowych w historii należały roślinożerne zauropody, takie jak brachiozaur czy argentynozaur, których masa ciała przekraczała kilkadziesiąt ton, a długie szyje umożliwiały sięganie do koron wysokich drzew iglastych.",
-            "Na drugim biegunie znajdowały się drapieżne teropody — od niewielkich, zwinnych welociraptorów polujących na drobne kręgowce, po masywnego tyranozaura wyposażonego w potężne szczęki zdolne kruszyć kości ofiar. Wiele gatunków roślinożernych wykształciło też zaawansowane mechanizmy obronne, takie jak kostne pancerze, rogi czy maczugi ogonowe."
+        "title": "Moduł 2: Gigantyczne zauropody i ich środowisko",
+        "instruction": "Kliknij obie zaznaczone strefy, aby poznać budowę i tryb życia długoszyich roślinożerców.",
+        "image_url": "/static/images/intervention/dino_2.jpg",
+        "hotspots": [
+            {
+                "x": 35,
+                "y": 25,
+                "label": "Konstrukcja 10-metrowej szyi",
+                "description": "Szyja zauropodów takich jak brachiozaur mogła mierzyć ponad 10 metrów. Pojedyncze kręgi szyjne były ekstremalnie wydłużone i wypełnione systemem worków powietrznych, dzięki czemu cała szyja była stosunkowo lekka."
+            },
+            {
+                "x": 70,
+                "y": 65,
+                "label": "Obalamy mit o życiu w głębokiej wodzie",
+                "description": "Dawniej sądzono, że wielotonowe zauropody musiały przebywać w jeziorach, aby woda odciążała ich kręgosłup. Późniejsze badania wykazały jednak, że ciśnienie wody na takiej głębokości uniemożliwiłoby im oddychanie – były zwierzętami w pełni lądowymi."
+            }
         ]
     },
     {
-        "step": 3,
-        "category": "Artykuł popularnonaukowy • Część 3 z 5",
-        "title": "3. Odkrycie upierzenia i związek z ptakami",
-        "paragraphs": [
-            "Przez ponad sto lat dinozaury przedstawiano wyłącznie jako ociężałe, zmiennocieplne gady pokryte łuskami. Przełom w paleontologii nastąpił w latach 90. XX wieku po odkryciu w chińskiej prowincji Liaoning doskonale zachowanych skamieniałości teropodów z wyraźnymi odciskami piór.",
-            "Badania wykazały, że proste struktury przypominające puch pełniły początkowo funkcję izolacji termicznej lub służyły do sygnalizacji godowej, zanim u części gatunków przekształciły się w lotki umożliwiające lot. Współczesna nauka klasyfikuje ptaki jako bezpośrednich żyjących potomków małych dinozaurów z grupy teropodów."
+        "title": "Moduł 3: Jak pracują paleontolodzy na wykopaliskach?",
+        "instruction": "Kliknij 2 zaznaczone miejsca na stanowisku badawczym, aby dowiedzieć się więcej o skamieniałościach.",
+        "image_url": "/static/images/intervention/dino_3.jpg",
+        "hotspots": [
+            {
+                "x": 44,
+                "y": 52,
+                "label": "Ciągła wymiana zębów u teropodów",
+                "description": "Drapieżne dinozaury nie miały jednego kompletu zębów na całe życie. Pod każdym zużytym lub złamanym zębem w zębodole rósł już kolejny – pełna wymiana pojedynczego zęba trwała zaledwie kilka tygodni."
+            },
+            {
+                "x": 24,
+                "y": 38,
+                "label": "Siatka pomiarowa w terenie",
+                "description": "Rozpięta nad wykopem siatka sznurków pozwala naukowcom precyzyjnie skartować położenie każdego fragmentu szkieletu przed jego wydobyciem. Umożliwia to odtworzenie historii osobnika oraz warunków, w jakich powstała skamieniałość."
+            }
         ]
     },
     {
-        "step": 4,
-        "category": "Artykuł popularnonaukowy • Część 4 z 5",
-        "title": "4. Życie społeczne, gniazdowanie i opieka nad potomstwem",
-        "paragraphs": [
-            "Analiza skamieniałych tropów oraz stanowisk lęgowych dostarczyła dowodów na złożone zachowania społeczne wielu gatunków dinozaurów. Odkrycia całych kolonii gniazdowych majazaurów pokazały, że dorosłe osobniki budowały ziemne kopce, wysiadywały jaja i przynosiły pokarm młodym po wykluciu.",
-            "Z kolei ścieżki odciśniętych śladów wskazują, że duże zwierzęta roślinożerne przemieszczały się w zorganizowanych stadach, w których młode osobniki poruszały się w bezpiecznym środku grupy, chronione od zewnątrz przez dorosłe zwierzęta. Takie zachowania znacząco zwiększały przeżywalność potomstwa."
+        "title": "Moduł 4: Wulkanizm i zmysły wielkich drapieżników",
+        "instruction": "Zbadaj 2 zaznaczone strefy w krajobrazie późnej kredy.",
+        "image_url": "/static/images/intervention/dino_4.jpg",
+        "hotspots": [
+            {
+                "x": 43,
+                "y": 23,
+                "label": "Wielkie erupcje wulkaniczne (Trapy Dekanu)",
+                "description": "Pod koniec kredy, na terenie dzisiejszych Indii, przez setki tysięcy lat trwały potężne wylewy lawy. Uwolniły one do atmosfery gigantyczne ilości gazów cieplarnianych i siarki, destabilizując klimat jeszcze przed uderzeniem planetoidy."
+            },
+            {
+                "x": 67,
+                "y": 36,
+                "label": "Wyostrzony wzrok i węch tyranozaura",
+                "description": "Tomografia komputerowa czaszek tyranozaurów ujawniła niezwykle rozbudowane opuszki węchowe oraz oczy skierowane do przodu, zapewniające widzenie stereoskopowe (przestrzenne) lepsze niż u współczesnych ptaków drapieżnych."
+            }
         ]
     },
     {
-        "step": 5,
-        "category": "Artykuł popularnonaukowy • Część 5 z 5",
-        "title": "5. Wielkie wymieranie kredowe sprzed 66 milionów lat",
-        "paragraphs": [
-            "Panowanie nieptasich dinozaurów zakończyło się gwałtownie 66 milionów lat temu na granicy kredy i paleogenu. Główną przyczyną tej katastrofy było uderzenie planetoidy o średnicy około dziesięciu kilometrów w rejon dzisiejszego półwyspu Jukatan w Meksyku, gdzie powstał krater Chicxulub.",
-            "Kolizja wyrzuciła do atmosfery ogromne ilości pyłu i związków siarki, blokując dopływ światła słonecznego na wiele miesięcy. Załamanie fotosyntezy doprowadziło do gwałtownego ochłodzenia klimatu i rozpadu łańcuchów pokarmowych, co spowodowało wyginięcie około 75 procent wszystkich gatunków żyjących wówczas na Ziemi."
+        "title": "Moduł 5: Upierzone dinozaury i ekosystemy kredy",
+        "instruction": "Kliknij 2 ostatnie strefy na ilustracji, aby przejść do testu końcowego.",
+        "image_url": "/static/images/intervention/dino_5.jpg",
+        "hotspots": [
+            {
+                "x": 72,
+                "y": 80,
+                "label": "Upierzone teropody i przodkowie ptaków",
+                "description": "Odkrycia skamieniałości dowiodły, że wiele małych drapieżnych dinozaurów było pokrytych piórami, które służyły do utrzymywania ciepła oraz komunikacji. Z punktu widzenia ewolucji współczesne ptaki są bezpośrednio żyjącymi dinozaurami."
+            },
+            {
+                "x": 56,
+                "y": 42,
+                "label": "Podział ról w ekosystemie",
+                "description": "W tym samym środowisku współistniały obok siebie gigantyczne zauropody żerujące w koronach drzew, ciężkie drapieżniki szczytowe oraz lekkie, zwinne teropody, zajmujące zupełnie różne nisze pokarmowe."
+            }
         ]
     }
 ]

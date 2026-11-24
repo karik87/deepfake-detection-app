@@ -27,6 +27,7 @@ def init_db():
             self_assessment INTEGER,
             group_type TEXT,
             intervention_duration_seconds REAL DEFAULT 0,
+            completed INTEGER DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
@@ -43,6 +44,7 @@ def init_db():
             confidence_score INTEGER,
             response_time_seconds REAL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(session_id, phase, image_id),
             FOREIGN KEY (session_id) REFERENCES sessions (session_id)
         )
     """)
